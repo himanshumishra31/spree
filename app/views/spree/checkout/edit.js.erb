@@ -1,5 +1,16 @@
 <% if @order.errors.present? %>
-  Spree.displayErrors("<%=j @order.errors.messages.to_json.html_safe %>", "<%=j @order.state %>")
+  errorDiv = $('<div>', {id: 'errorExplanation', class: 'alert alert-danger'});
+  heading = $('<p>').text("There were problems with the following fields:");
+  errorList = $('<ul>');
+  <% @order.errors.messages.each do |key, message| %>
+    <% message.each do |error| %>
+      list = $('<li>').text("<%=j error %>");
+      errorList.append(list);
+    <% end %>
+  <% end %>
+  errorDiv.append(heading, errorList);
+  $('div[data-hook="checkout_header"]').append(errorDiv);
+  $('input[data-disable-with="Save and Continue"]').removeClass('disabled');
 <% else %>
   $('div[data-hook="checkout_form_wrapper"]').hide();
   currentStateDiv = $("form#checkout_form_<%= @order.state %>").parent('div');
