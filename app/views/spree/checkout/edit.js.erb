@@ -1,0 +1,10 @@
+<% if @order.errors.present? %>
+  Spree.displayErrors("<%=j @order.errors.messages.to_json.html_safe %>", "<%=j @order.state %>")
+<% else %>
+  $('div[data-hook="checkout_form_wrapper"]').hide();
+  currentStateDiv = $("form#checkout_form_<%= @order.state %>").parent('div');
+  currentStateDiv.show();
+  currentStateDiv.find('input#order_state_lock_version').val("<%= @order.state_lock_version.to_s %>");
+  $('li.active').removeClass('active').next().addClass('active');
+  $('li.active').prevAll().addClass('completed');
+<% end %>
