@@ -18,4 +18,9 @@
   currentStateDiv.find('input#order_state_lock_version').val("<%= @order.state_lock_version.to_s %>");
   $('li.active').removeClass('active').next().addClass('active');
   $('li.active').prevAll().addClass('completed');
+  $('li.completed').each(function(index, list) {
+    stateLink = $(list).find('a');
+    state = stateLink.text().toLowerCase();
+    stateLink.attr("href", "/checkout/" + state + "");
+  })
 <% end %>
