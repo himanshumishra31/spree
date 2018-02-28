@@ -21,6 +21,7 @@
   </div>
 
   <div class="row" data-hook="checkout_content">
+    <% debugger %>
     <% @order.checkout_steps[0...-1].each do |state| %>
       <div class="<%= if state != 'confirm' then 'col-md-9' else 'col-md-12' end %> <%= if state == @order.state then 'show_div' else 'hide_div' end %>" data-hook="checkout_form_wrapper">
         <%= form_for @order, url: update_checkout_path(state), html: { id: "checkout_form_#{state}" }, remote: state == 'confirm' ? false : true do |form| %>
