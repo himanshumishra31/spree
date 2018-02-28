@@ -11,6 +11,7 @@
   errorDiv.append(heading, errorList);
   $('div[data-hook="checkout_header"]').append(errorDiv);
   $('input[data-disable-with="Save and Continue"]').removeClass('disabled');
+  $("form#checkout_form_<%= @order.state %>").parent('div').find('input#order_state_lock_version').val("<%= @order.state_lock_version.to_s %>");
 <% else %>
   $('div[data-hook="checkout_form_wrapper"]').hide();
   currentStateDiv = $("form#checkout_form_<%= @order.state %>").parent('div');
