@@ -1,14 +1,15 @@
 <% if @order.errors.present? %>
   errorDiv = $('<div>', {id: 'errorExplanation', class: 'alert alert-danger'});
-  heading = $('<p>').text("There were problems with the following fields:");
+  heading = $('<p style="margin-top: 60px">').text("There were problems with the following fields:");
   errorList = $('<ul>');
   <% @order.errors.messages.each do |key, message| %>
     <% message.each do |error| %>
-      list = $('<li>').text("<%=j error %>");
+      list = $('<li>').text("<%=j error.html_safe %>");
       errorList.append(list);
     <% end %>
   <% end %>
-  errorDiv.append(heading, errorList);
+  breakLine = $('<br>');
+  errorDiv.append(breakLine, breakLine, breakLine, heading, errorList);
   $('div[data-hook="checkout_header"]').append(errorDiv);
   $('input[data-disable-with="Save and Continue"]').removeClass('disabled');
 <% else %>
@@ -21,6 +22,6 @@
   $('li.completed').each(function(index, list) {
     stateLink = $(list).find('a');
     state = stateLink.text().toLowerCase();
-    stateLink.attr("href", "/checkout/" + state + "");
+    stateLink.attr("href", "/checkout/" + state);
   })
 <% end %>
