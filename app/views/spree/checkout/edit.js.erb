@@ -8,8 +8,7 @@
       errorList.append(list);
     <% end %>
   <% end %>
-  breakLine = $('<br>');
-  errorDiv.append(breakLine, breakLine, breakLine, heading, errorList);
+  errorDiv.append(heading, errorList);
   $('div[data-hook="checkout_header"]').append(errorDiv);
   $('input[data-disable-with="Save and Continue"]').removeClass('disabled');
 <% else %>
