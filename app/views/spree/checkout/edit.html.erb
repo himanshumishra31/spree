@@ -1,4 +1,3 @@
-<%= javascript_include_tag 'spree/frontend/hide_div' %>
 <% @body_id = 'checkout-page' %>
 <% content_for :google_analytics do %>
   <%= render partial: 'spree/shared/google_checkout.js', locals: { order: @order, step_number: (@order.checkout_steps.index(@order.state) + 1) } %>
@@ -21,25 +20,9 @@
   </div>
 
   <div class="row" data-hook="checkout_content">
-    <% debugger %>
-    <% @order.checkout_steps[0...-1].each do |state| %>
-      <div class="<%= if state != 'confirm' then 'col-md-9' else 'col-md-12' end %> <%= if state == @order.state then 'show_div' else 'hide_div' end %>" data-hook="checkout_form_wrapper">
-        <%= form_for @order, url: update_checkout_path(state), html: { id: "checkout_form_#{state}" }, remote: state == 'confirm' ? false : true do |form| %>
-          <% if state == 'address' || !@order.email? %>
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <div class="form-group">
-                  <%= form.label :email %>
-                  <%= form.email_field :email, class: 'form-control', required: true %>
-                </div>
-              </div>
-            </div>
-          <% end %>
-          <%= form.hidden_field :state_lock_version %>
-          <%= render state, form: form %>
-        </div>
-      <% end %>
-    <% end %>
+      <div class='col-md-9' data-hook="checkout_form_wrapper">
+        <%= render @order.state %>
+      </div>
     <% if @order.state != 'confirm' %>
       <div id="checkout-summary" data-hook="checkout_summary_box" class="col-md-3">
         <%= render partial: 'summary', locals: { order: @order } %>
