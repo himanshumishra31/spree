@@ -38,8 +38,6 @@
           </div>
         <% end %>
 
-        <%= render partial: 'spree/checkout/payment/storecredit' %>
-
         <ul class="list-group" id="payment-method-fields" data-hook>
           <% @order.available_payment_methods.each do |method| %>
             <li class="list-group-item">
@@ -72,7 +70,6 @@
 
     <div class="well text-right form-buttons" data-hook="buttons">
       <%= submit_tag Spree.t(:save_and_continue), class: 'btn btn-lg btn-success primary' %>
-      <script>Spree.disableSaveOnClick();</script>
     </div>
   <% end %>
 </div>

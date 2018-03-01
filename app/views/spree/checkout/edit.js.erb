@@ -13,6 +13,7 @@
   $('input[data-disable-with="Save and Continue"]').removeClass('disabled');
   $("form#checkout_form_<%= @order.state %>").parent('div').find('input#order_state_lock_version').val("<%= @order.state_lock_version.to_s %>");
 <% else %>
+  $('div#errorExplanation').hide();
   $('div[data-hook="checkout_form_wrapper"]').hide();
   console.log("<%= @order.state %>");
   $('div[data-hook="checkout_header"]').after('<%=j render partial: @order.state %>');
@@ -25,4 +26,10 @@
     state = stateLink.text().toLowerCase();
     stateLink.attr("href", "/checkout/" + state);
   });
+  <% if @order.state == 'address' %>
+    Spree.onAdress()
+  <% end %>
+  <% if @order.state == 'payment' %>
+    Spree.onPayment()
+  <% end %>
 <% end %>
