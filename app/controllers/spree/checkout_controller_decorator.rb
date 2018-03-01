@@ -20,7 +20,7 @@ module Spree
         else
           respond_to do |format|
             format.html { redirect_to checkout_state_path(@order.state) }
-            format.js { render action: "edit" }
+            format.js { render action: :edit }
           end
         end
       else

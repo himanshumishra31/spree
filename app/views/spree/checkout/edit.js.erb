@@ -16,7 +16,7 @@
   $('div#errorExplanation').hide();
   $('div[data-hook="checkout_form_wrapper"]').hide();
   console.log("<%= @order.state %>");
-  $('div[data-hook="checkout_header"]').after('<%=j render partial: @order.state %>');
+  $('div[data-hook="checkout_header"]').after('<%=j render @order.state %>');
   currentStateDiv = $("form#checkout_form_<%= @order.state %>").parent('div');
   currentStateDiv.find('input#order_state_lock_version').val("<%= @order.state_lock_version.to_s %>");
   $('li.active').removeClass('active').next().addClass('active');
