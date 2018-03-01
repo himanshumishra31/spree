@@ -8,7 +8,7 @@ module Spree
           flash[:error] = @order.errors.full_messages.join("\n")
           respond_to do |format|
             format.html { redirect_to(checkout_state_path(@order.state)) && return }
-            format.js { render action: "edit" }
+            format.js { render action: :edit }
           end
         end
 
@@ -20,6 +20,7 @@ module Spree
         else
           respond_to do |format|
             format.html { redirect_to checkout_state_path(@order.state) }
+            setup_for_current_state if @order.state == 'payment'
             format.js { render action: :edit }
           end
         end

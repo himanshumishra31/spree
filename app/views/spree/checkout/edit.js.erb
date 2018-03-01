@@ -26,6 +26,9 @@
     state = stateLink.text().toLowerCase();
     stateLink.attr("href", "/checkout/" + state);
   });
+  <% if @order.state == 'confirm' %>
+    $("div[data-hook='checkout_summary_box']").hide();
+  <% end %>
   <% if @order.state == 'address' %>
     Spree.onAdress()
   <% end %>
