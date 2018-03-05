@@ -37,20 +37,12 @@ CheckoutManager.prototype.hideProgressBar = function() {
   };
 };
 
-CheckoutManager.prototype.enableCoffeeScript = function() {
+CheckoutManager.prototype.enableCoffeeScriptOnCheckoutSteps = function() {
   if (this.state == 'address') {
     Spree.onAddress();
-  };
-  if (this.state == 'payment') {
+  } else if (this.state == 'payment') {
     Spree.onPayment();
-  }
-};
-
-CheckoutManager.prototype.afterFormRender = function() {
-  this.updateStateLockVersion();
-  this.updateCheckoutProgressBar();
-  this.hideProgressBar();
-  this.enableCoffeeScript();
+  };
 };
 
 CheckoutManager.prototype.displayErrors = function(errors) {
@@ -72,4 +64,8 @@ CheckoutManager.prototype.displayErrors = function(errors) {
 
 CheckoutManager.prototype.init = function() {
   this.hideDivs();
+  this.updateStateLockVersion();
+  this.updateCheckoutProgressBar();
+  this.hideProgressBar();
+  this.enableCoffeeScriptOnCheckoutSteps();
 };

@@ -14,7 +14,6 @@ var obj = new CheckoutManager(data);
 <% if @order.errors.present? %>
   obj.displayErrors("<%=j @order.errors.messages.to_json.html_safe %>");
 <% else %>
-  obj.init();
   $('div[data-hook="checkout_header"]').after('<%=j render @order.state %>');
-  obj.afterFormRender();
+  obj.init();
 <% end %>
