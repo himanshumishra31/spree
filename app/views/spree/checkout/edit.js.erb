@@ -1,37 +1,20 @@
+var data = {
+  errorDiv: $('div#errorExplanation'),
+  previousStateForm: $('div[data-hook="checkout_form_wrapper"]'),
+  state: "<%= @order.state %>",
+  formHeaderDiv: $('div[data-hook="checkout_header"]'),
+  currentStateDiv: $("form#checkout_form_<%= @order.state %>").parent('div').find('input#order_state_lock_version'),
+  stateLockVersion: "<%= @order.state_lock_version.to_s %>",
+  activeList: $('li.active'),
+  checkoutProgressBar: $("div[data-hook='checkout_summary_box']"),
+  saveButton: $('input[data-disable-with="Save and Continue"]'),
+  stateForm: $("form#checkout_form_<%= @order.state %>")
+}
+var obj = new CheckoutManager(data);
 <% if @order.errors.present? %>
-  errorDiv = $('<div>', {id: 'errorExplanation', class: 'alert alert-danger'});
-  heading = $('<p style="margin-top: 60px">').text("There were problems with the following fields:");
-  errorList = $('<ul>');
-  <% @order.errors.messages.each do |key, message| %>
-    <% message.each do |error| %>
-      list = $('<li>').text("<%=j error.html_safe %>");
-      errorList.append(list);
-    <% end %>
-  <% end %>
-  errorDiv.append(heading, errorList);
-  $('div[data-hook="checkout_header"]').append(errorDiv);
-  $('input[data-disable-with="Save and Continue"]').removeClass('disabled');
-  $("form#checkout_form_<%= @order.state %>").parent('div').find('input#order_state_lock_version').val("<%= @order.state_lock_version.to_s %>");
+  obj.displayErrors("<%=j @order.errors.messages.to_json.html_safe %>");
 <% else %>
-  $('div#errorExplanation').hide();
-  $('div[data-hook="checkout_form_wrapper"]').hide();
+  obj.init();
   $('div[data-hook="checkout_header"]').after('<%=j render @order.state %>');
-  currentStateDiv = $("form#checkout_form_<%= @order.state %>").parent('div');
-  currentStateDiv.find('input#order_state_lock_version').val("<%= @order.state_lock_version.to_s %>");
-  $('li.active').removeClass('active').next().addClass('active');
-  $('li.active').prevAll().addClass('completed');
-  $('li.completed').each(function(index, list) {
-    stateLink = $(list).find('a');
-    state = stateLink.text().toLowerCase();
-    stateLink.attr("href", "/checkout/" + state);
-  });
-  <% if @order.state == 'confirm' %>
-    $("div[data-hook='checkout_summary_box']").hide();
-  <% end %>
-  <% if @order.state == 'address' %>
-    Spree.onAdress()
-  <% end %>
-  <% if @order.state == 'payment' %>
-    Spree.onPayment()
-  <% end %>
+  obj.afterFormRender();
 <% end %>
