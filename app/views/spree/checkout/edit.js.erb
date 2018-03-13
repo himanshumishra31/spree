@@ -1,0 +1,19 @@
+var data = {
+  errorDiv: $('div#errorExplanation'),
+  previousStateForm: $('div[data-hook="checkout_form_wrapper"]'),
+  state: "<%= @order.state %>",
+  formHeaderDiv: $('div[data-hook="checkout_header"]'),
+  currentStateDiv: $("form#checkout_form_<%= @order.state %>").parent('div').find('input#order_state_lock_version'),
+  stateLockVersion: "<%= @order.state_lock_version.to_s %>",
+  activeList: $('li.active'),
+  checkoutProgressBar: $("div[data-hook='checkout_summary_box']"),
+  saveButton: $('input[data-disable-with="Save and Continue"]'),
+  stateForm: $("form#checkout_form_<%= @order.state %>")
+}
+var obj = new CheckoutManager(data);
+<% if @order.errors.present? %>
+  obj.displayErrors("<%=j @order.errors.messages.to_json.html_safe %>");
+<% else %>
+  $('div[data-hook="checkout_header"]').after('<%=j render @order.state %>');
+  obj.init();
+<% end %>
